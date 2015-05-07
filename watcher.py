@@ -35,10 +35,11 @@ from gevent import reinit as gevent_reinit
 from gevent.pool import Pool
 
 from util import beanstalkc
-import ganetimgr.settings as settings
-
-from django.core.management import setup_environ
-setup_environ(settings)
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ganetimgr.settings")
+from django.core.wsgi import get_wsgi_application
+get_wsgi_application()
+from django.conf import settings
 
 from ganeti.models import Cluster
 from apply.models import InstanceApplication, STATUS_FAILED, STATUS_SUCCESS
@@ -50,7 +51,7 @@ from django.core.mail import mail_admins, mail_managers, send_mail
 from django.core import urlresolvers
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import close_connection
+from django.db import close_old_connections
 
 logger = None
 
@@ -120,7 +121,7 @@ def clear_cluster_users_cache(cluster_slug):
     for user in User.objects.all():
         cache.delete("user:%s:index:instances" %user.username)
     cache.delete("cluster:%s:instances" % cluster_slug)
-    close_connection()
+    close_old_connections()
 
 def handle_job_lock(job):
     global logger
@@ -136,10 +137,10 @@ def handle_job_lock(job):
         logger.warn("Got lock key %s for unknown cluster %s, burying" %
                      (data["lock_key"], data["cluster"]))
         job.bury()
-        close_connection()
+        close_old_connections()
         return
     finally:
-        close_connection()
+        close_old_connections()
 
     pi = next_poll_interval()
     while True:
@@ -155,11 +156,11 @@ def handle_job_lock(job):
             status = cluster.get_job_status(job_id)
         except Exception, err:
             logger.warn("Error polling job: %s" % str(err))
-            close_connection()
+            close_old_connections()
             sleep(pi.next())
             continue
         finally:
-            close_connection()
+            close_old_connections()
         logger.debug("Done")
 
         if status["end_ts"]:
@@ -206,10 +207,10 @@ def handle_creation(job):
                     "Please inspect job #%d (application %d) manually" %
                     (job.jid, data["application_id"]))
         job.bury()
-        close_connection()
+        close_old_connections()
         return
     finally:
-        close_connection()
+        close_old_connections()
 
     logger.info("Handling %s (job: %d)",
                  application.hostname, application.job_id)
@@ -254,7 +255,7 @@ def handle_creation(job):
                 try_log(mail_managers, "Instance %s is ready" % application.hostname,
                               mail_body)
             job.delete()
-            close_connection()
+            close_old_connections()
             break
         job.touch()
 
