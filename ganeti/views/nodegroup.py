@@ -20,7 +20,8 @@ def get_nodegroups_fromnet(request):
         nodeg_dict = {}
         nodeg_dict['name'] = g['name']
         nodegroups_list.append(nodeg_dict)
-    return HttpResponse(json.dumps(nodegroups_list), mimetype='application/json')
+    return HttpResponse(json.dumps(nodegroups_list),
+                        content_type='application/json')
 
 
 @permission_required("apply.change_instanceapplication")
@@ -35,9 +36,9 @@ def get_cluster_node_group_stack(request):
                     'response': 'Error. Cluster does not exist!'
                 }
             ),
-            mimetype='application/json'
+            content_type='application/json'
         )
     res = prepare_cluster_node_group_stack(cluster)
-    return HttpResponse(json.dumps(res), mimetype='application/json')
+    return HttpResponse(json.dumps(res), content_type='application/json')
 
 

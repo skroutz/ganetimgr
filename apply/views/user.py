@@ -254,6 +254,6 @@ def pass_notify(request):
             settings.SERVER_EMAIL,
             [request.user.email]
         )
-        return HttpResponse("mail sent", mimetype="text/plain")
+        return HttpResponse("mail sent", content_type="text/plain")
     else:
-        return HttpResponse("mail not sent", mimetype="text/plain")
+        return HttpResponse("mail not sent", content_type="text/plain")

@@ -107,11 +107,11 @@ def clusternodes_json(request, cluster=None):
                 nodedetails.append(node_dict)
         jresp['aaData'] = nodedetails
         res = jresp
-        return HttpResponse(json.dumps(res), mimetype='application/json')
+        return HttpResponse(json.dumps(res), content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': 'Unauthorized access'}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 
 
@@ -346,10 +346,11 @@ def clusterdetails_json(request):
                     close_connection()
             p.map(_get_cluster_details, Cluster.objects.all())
             cache.set("clusters:allclusterdetails", clusterlist, 180)
-        return HttpResponse(json.dumps(clusterlist), mimetype='application/json')
+        return HttpResponse(json.dumps(clusterlist),
+                            content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': "Unauthorized access"}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 

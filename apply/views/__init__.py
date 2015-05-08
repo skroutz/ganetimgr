@@ -333,6 +333,6 @@ def instance_ssh_keys(request, application_id, cookie):
     output = StringIO()
     output.writelines([k.key_line() for k in
                        app.applicant.sshpublickey_set.all()])
-    return HttpResponse(output.getvalue(), mimetype="text/plain")
+    return HttpResponse(output.getvalue(), content_type="text/plain")
 
 

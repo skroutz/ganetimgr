@@ -79,7 +79,7 @@ def user_index_json(request):
                 " and our admins will be notified about it"
             )
         }
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
     p = Pool(20)
     instances = []
     bad_clusters = []
@@ -158,7 +158,7 @@ def user_index_json(request):
         cache.set(cache_key, jresp, cache_timeout)
         res = jresp
 
-    return HttpResponse(json.dumps(res), mimetype='application/json')
+    return HttpResponse(json.dumps(res), content_type='application/json')
 
 
 @login_required
@@ -170,7 +170,7 @@ def user_sum_stats(request):
                 " logged and our admins will be notified about it"
             )
         }
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
     p = Pool(20)
     instances = []
     bad_clusters = []
@@ -266,7 +266,7 @@ def user_sum_stats(request):
         instances_stats = return_dict
     return HttpResponse(
         json.dumps(instances_stats),
-        mimetype='application/json'
+        content_type='application/json'
     )
 
 
@@ -334,7 +334,7 @@ def novnc_proxy(request, cluster_slug, instance):
     cluster = get_object_or_404(Cluster, slug=cluster_slug)
     use_tls = settings.NOVNC_USE_TLS
     result = json.dumps(cluster.setup_novnc_forwarding(instance, tls=use_tls))
-    return HttpResponse(result, mimetype="application/json")
+    return HttpResponse(result, content_type="application/json")
 
 
 @login_required
@@ -683,7 +683,8 @@ def lock(request, instance):
                 res = {
                     'result': 'success'
                 }
-                return HttpResponse(json.dumps(res), mimetype='application/json')
+                return HttpResponse(json.dumps(res),
+                                    content_type='application/json')
             else:
                 return render(
                     request,
@@ -749,7 +750,7 @@ def isolate(request, instance):
                     instance.cluster.migrate_instance(instance.name)
                 res = {'result': 'success'}
                 return HttpResponse(
-                    json.dumps(res), mimetype='application/json'
+                    json.dumps(res), content_type='application/json'
                 )
             else:
                 return render(

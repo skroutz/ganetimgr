@@ -90,11 +90,11 @@ def jobs_index_json(request):
             jresp['messages'] = messages
         jresp['clusters'] = clusters
         res = jresp
-        return HttpResponse(json.dumps(res), mimetype='application/json')
+        return HttpResponse(json.dumps(res), content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': "Unauthorized access"}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 
 
