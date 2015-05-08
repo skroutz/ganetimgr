@@ -4,7 +4,7 @@ import posixpath
 from django import template
 from django.core.urlresolvers import reverse
 
-from ..utils import markdown as _markdown, md_settings, simplejson, mark_safe
+from ..utils import markdown as _markdown, md_settings, json, mark_safe
 
 
 register = template.Library()
@@ -54,7 +54,7 @@ def markdown_editor(selector):
     """
     return dict(
         selector=selector,
-        extra_settings=mark_safe(simplejson.dumps(
+        extra_settings=mark_safe(json.dumps(
             dict(previewParserPath=reverse('django_markdown_preview')))))
 
 

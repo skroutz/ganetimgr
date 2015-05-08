@@ -63,10 +63,7 @@ from util.client import GanetiApiError
 
 
 import pprint
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 
 from ganetimgr.settings import GANETI_TAG_PREFIX
 
