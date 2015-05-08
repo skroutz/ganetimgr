@@ -105,7 +105,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_markdown',
     'accounts',
-    'south',
     'registration',
     'ganeti',
     'apply',
