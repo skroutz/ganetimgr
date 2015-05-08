@@ -5,13 +5,7 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.template import loader, Context
 
-try:
-    import json as simplejson
-except ImportError:
-    try:
-        import simplejson
-    except ImportError:
-        from django.utils import simplejson
+import json
 
 from . import md_settings
 
@@ -43,6 +37,6 @@ def editor_js_initialization(selector, **extra_settings):
         **md_settings.MARKDOWN_EDITOR_SETTINGS)
     options.update(extra_settings)
     ctx = Context(dict(
-        selector=selector, extra_settings=simplejson.dumps(options)),
+        selector=selector, extra_settings=json.dumps(options)),
         autoescape=False)
     return INIT_TEMPLATE.render(ctx)
