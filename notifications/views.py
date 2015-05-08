@@ -64,7 +64,7 @@ def notify(request, instance=None):
                     ret = {'result': 'success'}
                     return HttpResponse(
                         json.dumps(ret),
-                        mimetype='application/json'
+                        content_type='application/json'
                     )
                 messages.add_message(
                     request,
@@ -193,12 +193,12 @@ def get_user_group_list(request):
             cld['type'] = "cluster"
             ret_list.append(cld)
         action = ret_list
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
     else:
         action = {
             'error': "Permissions' violation. This action has been logged and our admins will be notified about it"
         }
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
 
 
 def send_new_mail(subject, message, from_email, recipient_list, bcc_list):

@@ -71,4 +71,4 @@ def auditlog_json(request):
     jresp = {}
     jresp['aaData'] = entries
     res = jresp
-    return HttpResponse(json.dumps(res), mimetype='application/json')
+    return HttpResponse(json.dumps(res), content_type='application/json')

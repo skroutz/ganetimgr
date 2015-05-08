@@ -246,7 +246,7 @@ def clear_cache(request):
         result = {'result': "Success"}
     else:
         result = {'error': "Violation"}
-    return HttpResponse(json.dumps(result), mimetype='application/json')
+    return HttpResponse(json.dumps(result), content_type='application/json')
 
 
 @login_required
@@ -285,11 +285,11 @@ def jobs_index_json(request):
             jresp['messages'] = messages
         jresp['clusters'] = clusters
         res = jresp
-        return HttpResponse(json.dumps(res), mimetype='application/json')
+        return HttpResponse(json.dumps(res), content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': "Unauthorized access"}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 
 
@@ -368,11 +368,12 @@ def clusterdetails_json(request):
             p.imap(_get_cluster_details, Cluster.objects.all())
             p.join()
             cache.set("clusters:allclusterdetails", clusterlist, 180)
-        return HttpResponse(json.dumps(clusterlist), mimetype='application/json')
+        return HttpResponse(json.dumps(clusterlist),
+                            content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': "Unauthorized access"}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 
 
@@ -398,7 +399,7 @@ def user_index_json(request):
                 " and our admins will be notified about it"
             )
         }
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
     p = Pool(20)
     instances = []
     bad_clusters = []
@@ -479,7 +480,7 @@ def user_index_json(request):
         cache.set(cache_key, jresp, cache_timeout)
         res = jresp
 
-    return HttpResponse(json.dumps(res), mimetype='application/json')
+    return HttpResponse(json.dumps(res), content_type='application/json')
 
 
 @login_required
@@ -491,7 +492,7 @@ def user_sum_stats(request):
                 " logged and our admins will be notified about it"
             )
         }
-        return HttpResponse(json.dumps(action), mimetype='application/json')
+        return HttpResponse(json.dumps(action), content_type='application/json')
     p = Pool(20)
     instances = []
     bad_clusters = []
@@ -580,7 +581,7 @@ def user_sum_stats(request):
         instances_stats = return_dict
     return HttpResponse(
         json.dumps(instances_stats),
-        mimetype='application/json'
+        content_type='application/json'
     )
 
 
@@ -781,7 +782,7 @@ def novnc_proxy(request, cluster_slug, instance):
     cluster = get_object_or_404(Cluster, slug=cluster_slug)
     use_tls = settings.NOVNC_USE_TLS
     result = json.dumps(cluster.setup_novnc_forwarding(instance, tls=use_tls))
-    return HttpResponse(result, mimetype="application/json")
+    return HttpResponse(result, content_type="application/json")
 
 
 @login_required
@@ -1114,7 +1115,8 @@ def lock(request, instance):
                 res = {
                     'result': 'success'
                 }
-                return HttpResponse(json.dumps(res), mimetype='application/json')
+                return HttpResponse(json.dumps(res),
+                                    content_type='application/json')
             else:
                 return render_to_response(
                     'tagging/lock.html',
@@ -1180,7 +1182,7 @@ def isolate(request, instance):
                     instance.cluster.migrate_instance(instance.name)
                 res = {'result': 'success'}
                 return HttpResponse(
-                    json.dumps(res), mimetype='application/json'
+                    json.dumps(res), content_type='application/json'
                 )
             else:
                 return render_to_response(
@@ -1584,7 +1586,8 @@ def tagInstance(request, instance):
                 instance.cluster.tag_instance(instance.name, newtagstoapply)
 
             res = {'result': 'success'}
-            return HttpResponse(json.dumps(res), mimetype='application/json')
+            return HttpResponse(json.dumps(res),
+                                content_type='application/json')
         else:
             return render_to_response(
                 'tagging/itags.html',
@@ -1810,11 +1813,11 @@ def clusternodes_json(request, cluster=None):
                 nodedetails.append(node_dict)
         jresp['aaData'] = nodedetails
         res = jresp
-        return HttpResponse(json.dumps(res), mimetype='application/json')
+        return HttpResponse(json.dumps(res), content_type='application/json')
     else:
         return HttpResponse(
             json.dumps({'error': 'Unauthorized access'}),
-            mimetype='application/json'
+            content_type='application/json'
         )
 
 
@@ -1938,7 +1941,8 @@ def stats_ajax_instances(request):
             if len(cinstances) > 0:
                 cluster_list.append(cluster_dict)
         cache.set('%s:ajaxinstances' % username, cluster_list, 90)
-    return HttpResponse(json.dumps(cluster_list), mimetype='application/json')
+    return HttpResponse(json.dumps(cluster_list),
+                        content_type='application/json')
 
 
 @login_required
@@ -1956,7 +1960,7 @@ def stats_ajax_vms_per_cluster(request, cluster_slug):
         try:
             cinstances.extend(cluster.get_user_instances(request.user))
         except (GanetiApiError, Timeout):
-            return HttpResponse(json.dumps([]), mimetype='application/json')
+            return HttpResponse(json.dumps([]), content_type='application/json')
         for instance in cinstances:
             if instance.admin_state:
                 cluster_dict['instances']['up'] = cluster_dict['instances']['up'] + 1
@@ -1970,7 +1974,8 @@ def stats_ajax_vms_per_cluster(request, cluster_slug):
             cluster_dict,
             90
         )
-    return HttpResponse(json.dumps(cluster_dict), mimetype='application/json')
+    return HttpResponse(json.dumps(cluster_dict),
+                        content_type='application/json')
 
 
 @login_required
@@ -1995,7 +2000,7 @@ def stats_ajax_applications(request):
             appd['time'] = (1000 * mktime(app.filed.timetuple()))
             app_list.append(appd)
         cache.set('%s:ajaxapplist' % username, app_list, 90)
-    return HttpResponse(json.dumps(app_list), mimetype='application/json')
+    return HttpResponse(json.dumps(app_list), content_type='application/json')
 
 
 @login_required
@@ -2026,7 +2031,7 @@ def get_user_groups(request):
         groupd['type'] = "group"
         ret_list.append(groupd)
     action = ret_list
-    return HttpResponse(json.dumps(action), mimetype='application/json')
+    return HttpResponse(json.dumps(action), content_type='application/json')
 
 
 def disksizes(value):
@@ -2072,7 +2077,7 @@ def graph(
         response = open(settings.NODATA_IMAGE, "r")
     except Exception:
         response = open(settings.NODATA_IMAGE, "r")
-    return HttpResponse(response.read(), mimetype="image/png")
+    return HttpResponse(response.read(), content_type="image/png")
 
 
 @login_required

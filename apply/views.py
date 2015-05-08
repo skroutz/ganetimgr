@@ -271,7 +271,8 @@ def get_nodegroups_fromnet(request):
         nodeg_dict = {}
         nodeg_dict['name'] = g['name']
         nodegroups_list.append(nodeg_dict)
-    return HttpResponse(json.dumps(nodegroups_list), mimetype='application/json')
+    return HttpResponse(json.dumps(nodegroups_list),
+                        content_type='application/json')
 
 
 @permission_required("apply.change_instanceapplication")
@@ -283,7 +284,7 @@ def get_groupnets_fromcluster(request):
         return HttpResponse(
             json.dumps({
                 'response': 'Error. Cluster does not exist!'
-            }), mimetype='application/json')
+            }), content_type='application/json')
     if cluster:
         nodegroups = cluster.get_node_groups()
     nodegroups_list = []
@@ -291,9 +292,8 @@ def get_groupnets_fromcluster(request):
         nodeg_dict = {}
         nodeg_dict['name'] = g['name']
         nodegroups_list.append(nodeg_dict)
-    return HttpResponse(
-        json.dumps(nodegroups_list), mimetype='application/json'
-    )
+    return HttpResponse(json.dumps(nodegroups_list),
+                        content_type='application/json')
 
 
 @permission_required("apply.change_instanceapplication")
@@ -308,10 +308,10 @@ def get_cluster_node_group_stack(request):
                     'response': 'Error. Cluster does not exist!'
                 }
             ),
-            mimetype='application/json'
+            content_type='application/json'
         )
     res = prepare_cluster_node_group_stack(cluster)
-    return HttpResponse(json.dumps(res), mimetype='application/json')
+    return HttpResponse(json.dumps(res), content_type='application/json')
 
 
 def prepare_cluster_node_group_stack(cluster):
@@ -493,7 +493,7 @@ def instance_ssh_keys(request, application_id, cookie):
     output = StringIO()
     output.writelines([k.key_line() for k in
                        app.applicant.sshpublickey_set.all()])
-    return HttpResponse(output.getvalue(), mimetype="text/plain")
+    return HttpResponse(output.getvalue(), content_type="text/plain")
 
 
 @login_required
@@ -509,9 +509,9 @@ def pass_notify(request):
             SERVER_EMAIL,
             [request.user.email]
         )
-        return HttpResponse("mail sent", mimetype="text/plain")
+        return HttpResponse("mail sent", content_type="text/plain")
     else:
-        return HttpResponse("mail not sent", mimetype="text/plain")
+        return HttpResponse("mail not sent", content_type="text/plain")
 
 
 @ajax_required
