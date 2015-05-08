@@ -19,7 +19,8 @@ from django.contrib.auth import logout
 
 class ForceLogoutMiddleware(object):
     def process_request(self, request):
-        if request.user.is_authenticated() and request.user.get_profile().force_logout_date and \
+        if request.user.is_authenticated() and request.user.profile.force_logout_date and \
            ( 'LAST_LOGIN_DATE' not in request.session or \
-             request.session['LAST_LOGIN_DATE'] < request.user.get_profile().force_logout_date ):
+             request.session['LAST_LOGIN_DATE'] < request.user.profile.force_logout_date ):
             logout(request)
+

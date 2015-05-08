@@ -37,7 +37,7 @@ class UserMessageMiddleware(object):
                 first_login = request.session["first_login"]
             except KeyError:
                 try:
-                    profile = request.user.get_profile()
+                    profile = request.user.profile
                 except ObjectDoesNotExist:
                     profile = UserProfile.objects.create(user=request.user)
                 first_login = profile.first_login
@@ -50,7 +50,7 @@ class UserMessageMiddleware(object):
                                        " update <a href=\"%s\">your profile</a>"
                                        " and upload your SSH keys.") %
                                        reverse("profile")))
-                profile = request.user.get_profile()
+                profile = request.user.profile
                 profile.first_login = False
                 profile.save()
                 request.session["first_login"] = False
