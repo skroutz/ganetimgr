@@ -15,13 +15,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.db.utils import ProgrammingError
 from django.contrib import admin
 from apply.models import *
 from ganeti.models import Cluster
 
 def make_fast_create_actions():
+    cluster_list = Cluster.objects.filter(fast_create=True)
+    try:
+        cluster_list.exists()
+    except ProgrammingError:
+        return []
+
     actions = []
-    for cluster in Cluster.objects.filter(fast_create=True):
+    for cluster in cluster_list:
         def _submit_applications(modeladmin, request, queryset):
             for app in queryset:
                 if app.status == STATUS_PENDING:
