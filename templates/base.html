@@ -51,7 +51,7 @@
 						<span class="topmenuuser">{% trans "Welcome" %} <strong>{{user}}</strong></span>
 						{% endif %}
 						<span {% if user.is_authenticated %}class="topmenuaction"{% else %}class="topmenuuser"{% endif %} >
-							<form action="{% url django.views.i18n.set_language %}" method="post" style="display:inline;" id="langform">
+							<form action="{% url 'django.views.i18n.set_language' %}" method="post" style="display:inline;" id="langform">
 								{% csrf_token %}
 								<input name="next" type="hidden" value="{{ next }}" />
 								<input id="langsel" name="language" type="hidden" value="" />
@@ -60,17 +60,17 @@
 							</form>
 						</span>
 						{% if user.is_authenticated %}
-						<span class="topmenuaction"><a href="{% url apply %}">{% trans "Create Instance" %}</a></span>
-						<span class="topmenuaction"><a href="{% url profile %}">{% trans "My profile" %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'apply' %}">{% trans "Create Instance" %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'profile' %}">{% trans "My profile" %}</a></span>
 {% if user.is_superuser %}
-						<span class="topmenuaction"><a href="{% url admin:index %}">{% trans "Admin" %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></span>
 {% endif %}
 {% if can_handle_applications %}
-						<span class="topmenuaction"><a href="{% url application-list %}">{% trans "Applications" %}{% if pending_count %} ({{ pending_count }}){% endif %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'application-list' %}">{% trans "Applications" %}{% if pending_count %} ({{ pending_count }}){% endif %}</a></span>
 {% endif %}
-						<span class="topmenuaction"><a href="{% url logout %}">{% trans "Logout" %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'logout' %}">{% trans "Logout" %}</a></span>
 						{% else %}
-						<span class="topmenuaction"><a href="{% url login %}">{% trans "Login" %}</a></span>
+						<span class="topmenuaction"><a href="{% url 'login' %}">{% trans "Login" %}</a></span>
 						{% endif %}
 					</div>
 

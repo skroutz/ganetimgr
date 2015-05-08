@@ -26,7 +26,7 @@
 {% block title %}{% trans "Instance owners" %}{% endblock %}
 {% block owners %}class="active"{% endblock %}
 {% block crumbs %}
-	<li><a href="{% url user-instances %}">{% trans "Home" %}</a><span class="divider">/</span></li>
+	<li><a href="{% url 'user-instances' %}">{% trans "Home" %}</a><span class="divider">/</span></li>
 	<li class="active">{% trans "Instance owners" %}</li>
 {% endblock %}{% block content %}
 {% regroup instances by users as user_instances %}
@@ -49,11 +49,11 @@
 {% for user_list in user_instances %}
 {% for i in user_list.list %}
 <tr class="GradeA">
-<td style="text-align: center;">{% for u in user_list.grouper %}<a href="{% url user-info 'user' u.username %}">{{u.username}}</a> {% endfor %}</td>
+<td style="text-align: center;">{% for u in user_list.grouper %}<a href="{% url 'user-info' 'user' u.username %}">{{u.username}}</a> {% endfor %}</td>
 
 
 <td>
-<a href="{% url instance-detail i.cluster.slug i.name %}">{{ i.name }}</a><br />
+<a href="{% url 'instance-detail' i.cluster.slug i.name %}">{{ i.name }}</a><br />
 </td>
 </tr>
 {% endfor %}

@@ -3,7 +3,7 @@
 {% load disksizes %}
 {% block clusterinfo %}class = "active"{% endblock %}
 {% block crumbs %}
-	    			<li><a href="{% url user-instances %}">{% trans "Home" %}</a><span class="divider">/</span></li>
+                               <li><a href="{% url 'user-instances' %}">{% trans "Home" %}</a><span class="divider">/</span></li>
 	    			<li class="active">{% trans "Cluster Info" %}</li>
 	    		{% endblock %}
 {% block extrahead %}
@@ -113,7 +113,7 @@ var all_cluster_data;
 var selected_cluster;
 var ipolll;
 $(document).ready( function(){
-	var url = "{% url clusterdetails_json %}"; 	
+	var url = "{% url 'clusterdetails_json' %}";
 	$.ajax({
 		type: 'GET',
 		url: url,
@@ -343,7 +343,7 @@ $(document).ready( function(){
 				jobs = "";
 				$.ajax({
 					type: 'GET',
-					url: "{% url user-instances-json %}?cluster="+selected_cluster.slug,
+					url: "{% url 'user-instances-json' %}?cluster="+selected_cluster.slug,
 					dataType: 'json',
 					success: function(datainst) {
 							insts = datainst.aaData;

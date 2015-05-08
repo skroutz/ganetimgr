@@ -66,7 +66,7 @@
 				<p  class="error" style="color:red">{% trans "Your username and password didn't match. Please try again." %}</p>
 				{% endif %}
 
-				<form method="POST" class="form" action="{% url login %}">
+				<form method="POST" class="form" action="{% url 'login' %}">
 				{% csrf_token %}
                   <div class="control-group {% if form.username.errors %}error{% endif %}">
                    <div class="controls">
@@ -96,8 +96,8 @@
 			</div>
 			</div>
 			</form>
-			    <p><a href="{% url password_reset %}">{% trans "Forgot password?" %}</a></p>
-			    <p><a href="{% url registration_register %}">{% trans "Register a new account" %}</a></p>
+			    <p><a href="{% url 'password_reset' %}">{% trans "Forgot password?" %}</a></p>
+			    <p><a href="{% url 'registration_register' %}">{% trans "Register a new account" %}</a></p>
 				</div>
 		</div></div></div>
 			{% if FEED_URL %}

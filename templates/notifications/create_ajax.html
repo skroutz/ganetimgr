@@ -8,7 +8,7 @@ $(document).ready(function() {
 		$(this).html('Sending...')
 		$.ajax({
 			
-			url:"{% url notify %}",
+			url:"{% url 'notify' %}",
 			data:$("#notifyform").serialize(),
 			type: "POST",
 			cache: false,

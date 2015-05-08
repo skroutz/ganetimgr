@@ -31,7 +31,7 @@
 {% for cluster in object_list %}
 	<tr class="GradeA">
 		<td>
-			<a href="{% url cluster_detail cluster.slug %}">{{ cluster.hostname }}</a>
+			<a href="{% url 'cluster_detail' cluster.slug %}">{{ cluster.hostname }}</a>
 		</td>
 		<td>
 				{% with cluster.get_cluster_nodes as nodes %}

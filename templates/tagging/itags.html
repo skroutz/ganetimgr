@@ -12,7 +12,7 @@ $(document).ready(function() {
 											minimumInputLength : 2,
 											multiple: true,
 											ajax : { // instead of writing the function to execute the request we use Select2's convenient helper
-												url : "{% url tagusergroups %}",
+												url : "{% url 'tagusergroups' %}",
 												dataType : 'json',
 												data : function(term, page) {
 													return {
@@ -38,7 +38,7 @@ $(document).ready(function() {
 		var instance = $("#instancetagsform").data('instance');
 		$.ajax({
 			
-			url:"{% url instance-tags %}"+instance,
+			url:"{% url 'instance-tags' %}"+instance,
 			data:$("#instancetagsform").serialize(),
 			type: "POST",
 			cache: false,

@@ -10,7 +10,7 @@ $(document).ready(function() {
 		var cluster = $("#instancetagsform").data('cluster');
 		$.ajax({
 			
-			url:"{% url instance-rename cluster_slug instance 3 %}",
+			url:"{% url 'instance-rename' cluster_slug instance 3 %}",
 			data:$("#renameform").serialize(),
 			type: "POST",
 			cache: false,

@@ -13,7 +13,7 @@
 {% block title %}{% trans "Nodes" %}{% endblock %}
 {% block clusternodes %}class="active"{% endblock %}
 {% block crumbs %}
-	    			<li><a href="{% url user-instances %}">{% trans "Home" %}</a><span class="divider">/</span></li>
+                               <li><a href="{% url 'user-instances' %}">{% trans "Home" %}</a><span class="divider">/</span></li>
 	    			<li class="active">{% trans "Nodes" %}</li>
 	    		{% endblock %}
 
@@ -60,7 +60,7 @@ Free: <span class="badge badge-{{node.disk_used|perctobootstrapbadge}}">{{node.d
 {% endif %}
 </td>
 <td style="text-align: center;">{{node.ctotal}}</td>
-<td style="text-align: center;"><a data-ninst="{{node.pinst_cnt}}" data-html="true" data-content="{% for i in node.pinst_list %}<a href='{% url instance-detail node.cluster i %}' target='_blank'>{{i}}</a><br/>{% endfor %}" title="" rel="popover" data-toggle="popover" class="btn btn-small btn-info" href="#" data-original-title="Node instances">{{node.pinst_cnt}}</a></td>
+<td style="text-align: center;"><a data-ninst="{{node.pinst_cnt}}" data-html="true" data-content="{% for i in node.pinst_list %}<a href='{% url 'instance-detail' node.cluster i %}' target='_blank'>{{i}}</a><br/>{% endfor %}" title="" rel="popover" data-toggle="popover" class="btn btn-small btn-info" href="#" data-original-title="Node instances">{{node.pinst_cnt}}</a></td>
 <td><span class="label label-{{ node.role|nodelabel }}">
 {{ node.role|noderole }}
 <span>
