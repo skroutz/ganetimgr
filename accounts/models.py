@@ -26,7 +26,7 @@ from datetime import datetime
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
     first_login = models.BooleanField(default=True)
     force_logout_date = models.DateTimeField(null=True, blank=True)
     organization = models.ForeignKey(Organization, blank=True, null=True)

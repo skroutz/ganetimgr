@@ -175,9 +175,9 @@ def name_change(request):
 def other_change(request):
     changed = False
     if request.method == "GET":
-        form = OrganizationPhoneChangeForm(instance=request.user.get_profile())
+        form = OrganizationPhoneChangeForm(instance=request.user.profile)
     elif request.method == "POST":
-        form = OrganizationPhoneChangeForm(request.POST, instance=request.user.get_profile())
+        form = OrganizationPhoneChangeForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             changed = True
@@ -242,7 +242,7 @@ def delete_key(request, key_id):
 @login_required
 def pass_notify(request):
     user = User.objects.get(username=request.user)
-    user.get_profile().force_logout()
+    user.profile.force_logout()
     if user.email:
         email = render_to_string(
             "users/emails/pass_change_notify_mail.txt",
