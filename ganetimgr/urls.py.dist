@@ -23,6 +23,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_v
 from django_markdown import flatpages
 
+from registration.views import RegistrationView
 from accounts.forms import RegistrationForm, PasswordResetFormPatched
 
 admin.autodiscover()
@@ -71,8 +72,13 @@ urlpatterns = patterns('',
     url(r'^clearcache/?$', 'ganeti.views.clear_cache', name="clearcache"),
 
     url(r'^accounts/activate/(?P<activation_key>\w+)/$', 'accounts.views.activate', name='activate_account'),
-    url(r'^accounts/register/$','registration.views.register', {'backend':'regbackends.ganetimgr.GanetimgrBackend', 'form_class': RegistrationForm},
-                                    name='registration.views.register'),
+    url(r'^accounts/register/$',
+        RegistrationView.as_view(),
+        {
+            'form_class': RegistrationForm,
+            'backend':'regbackends.ganetimgr.GanetimgrBackend',
+        },
+        name='registration_register'),
     url(r'^accounts/password/reset/$',auth_v.password_reset, {'password_reset_form': PasswordResetFormPatched},
                                     name='password_reset'),
     (r'^accounts/', include('registration.backends.default.urls')),
