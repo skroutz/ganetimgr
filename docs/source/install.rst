@@ -6,7 +6,7 @@ We test (and use) ganetimgr on the latest stable version of Debian. We also pref
 
 This guide documents how to install ganetimgr with the following software:
 
-- Debian Stable, the base OS
+- Debian Jessie, the base OS
 - gunicorn with gevent, it runs the Django project
 - Nginx, the web server that serves the static content and proxies to gunicorn
 - Mysql, the database backend
@@ -20,20 +20,16 @@ Install packages
 
 Update and install the required packages::
 
-    apt-get install git nginx mysql-server gunicorn python-gevent redis-server beanstalkd
-    apt-get install python-mysqldb python-django python-redis python-django-registration python-paramiko python-daemon python-setproctitle python-pycurl python-recaptcha python-ipaddr python-bs4 python-requests python-markdown
+    apt-get install git nginx mysql-server gunicorn python-gevent redis-server beanstalkd memcached
+    apt-get install python-mysqldb python-django python-memcache python-redis python-django-registration python-paramiko python-daemon python-setproctitle python-pycurl python-recaptcha python-ipaddr python-bs4 python-requests python-markdown
 
 
 Beanstalkd
 ----------
 
-Edit ``/etc/default/beanstalkd`` and uncomment the following line::
+Make sure the beanastalkd is running::
 
-    START=yes
-
-and then start the daemon with::
-
-    service beanstalkd start
+    systemctl start beanstalkd
 
 Database Setup
 --------------
@@ -85,7 +81,11 @@ Below are explanations for most of the settings:
 - ``FEED_URL`` is an RSS feed that is displayed in the user login page.
 - ``SHOW_ADMINISTRATIVE_FORM`` toggles the admin info panel for the instance application form.
 - ``SHOW_ORGANIZATION_FORM`` does the same for the Organization dropdown menu.
-- You can use use an analytics service (Piwik, Google Analytics) by editing ``templates/analytics.html`` and adding the JS code that is generated for you by the service. This is souruced from all the project's pages.
+- You can use use an analytics service (Piwik, Google Analytics) by editing ``templates/analytics.html`` and adding the JS code that is generated for you by the service. This is sourced from all the project's pages.
+
+.. note::
+    Setting the ``DEBUG`` option to True, implies to explicitly set the
+    ``ALLOWED_HOSTS`` options.
 
 External Services
 ^^^^^^^^^^^^^^^^^
@@ -146,7 +146,7 @@ As of v.1.5.0 there is an autodiscovery mechanism for the images.
 
 All the given HTTP URLs from OPERATING_SYSTEMS_URLS will be searched for images. This discovers all images found on these URLS and makes them available for usage.
 
-The desciption of the images can be automatically fetched from
+The description of the images can be automatically fetched from
 the contents of a .dsc file with the same name as the image. For example, if an image named debian-wheezy-x86_64.tar.gz, ganetimgr will look for a debian-wheezy-x86_64.tar.gz.dsc file in the same directory
 and read it's contents (e.g. Debian Wheezy) and display it accordingly.
 
@@ -155,7 +155,7 @@ You also need to set OPERATING_SYSTEMS_PROVIDER and OPERATING_SYSTEMS_SSH_KEY_PA
     OPERATING_SYSTEMS_PROVIDER = 'image+default'
     OPERATING_SYSTEMS_SSH_KEY_PARAM = 'img_ssh_key_url'
 
-GannetiMgr will look for available images both from both sources. None of the above settings is required.
+GanetiMgr will look for available images both from both sources. None of the above settings is required.
 
 FLATPAGES
 ^^^^^^^^^
@@ -177,7 +177,7 @@ VNC
 We provide 2 VNC options for the users.
 
 - For the Java VNC applet to work, ``vncauthproxy`` must be running on the server. Setup instructions can be found :doc:`here </ganeti>`.
-- For setup instructions for the Websocker VNC applet, check :doc:`here </ganeti>`.
+- For setup instructions for the Websocket VNC applet, check :doc:`here </ganeti>`.
 
 There are three relevant options here:
 
@@ -189,13 +189,10 @@ There are three relevant options here:
 Install
 -------
 
-.. attention::
-    When running the syncdb command that follows DO NOT create a superuser yet!
+Run the following command to create the database entries::
 
-Run the following commands to create the database entries::
-
-    python manage.py syncdb --noinput
     python manage.py migrate
+
 
 and create the superuser manually::
 
@@ -218,25 +215,28 @@ Gunicorn Setup
 Create the gunicorn configuration file (/etc/gunicorn.d/ganetimgr)::
 
     CONFIG = {
-        'mode': 'django',
-        'working_dir': '/srv/ganetimgr',
+        'mode': 'wsgi',
         'user': 'www-data',
         'group': 'www-data',
         'args': (
+            '--chdir=/srv/www/ganetimgr',
             '--bind=127.0.0.1:8088',
             '--workers=2',
-            '--worker-class=egg:gunicorn#gevent',
+            '--worker-class=gevent',
             '--timeout=30',
+            '--log-level=debug',
             '--log-file=/var/log/ganetimgr/ganetimgr.log',
+            'ganetimgr.wsgi:application',
         ),
     }
+
 
 .. attention::
     A logrotate script is recommended from keeping the logfile from getting too big.
 
 Restart the service::
 
-    service gunicorn restart
+    systemctl restart gunicorn
 
 
 Web Server Setup
@@ -254,11 +254,11 @@ Create (or edit) an nginx vhost with the following::
 
 Restart nginx::
 
-    service nginx restart
+    systemctl restart nginx
 
 End
 ---
 
-Ths installation is finished. If you visit your webserver's address you should see the ganetimgr welcome page.
+The installation is finished. If you visit your webserver's address you should see the ganetimgr welcome page.
 
 Now it's time to go through the :doc:`Admin guide <admin>` to setup your clusters.
