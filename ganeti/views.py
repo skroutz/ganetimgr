@@ -269,8 +269,7 @@ def jobs_index_json(request):
             clusters = Cluster.objects.all()
             if cluster_slug:
                 clusters = clusters.filter(slug=cluster_slug)
-            p.imap(_get_jobs, clusters)
-            p.join()
+            p.map(_get_jobs, clusters)
         if bad_clusters:
             messages = "Some jobs may be missing because the" \
                 " following clusters are unreachable: %s" \
@@ -362,8 +361,7 @@ def clusterdetails_json(request):
                     errors.append(Exception)
                 finally:
                     close_connection()
-            p.imap(_get_cluster_details, Cluster.objects.all())
-            p.join()
+            p.map(_get_cluster_details, Cluster.objects.all())
             cache.set("clusters:allclusterdetails", clusterlist, 180)
         return HttpResponse(json.dumps(clusterlist),
                             content_type='application/json')
@@ -446,16 +444,14 @@ def user_index_json(request):
             clusters = Cluster.objects.all()
             if cluster_slug:
                 clusters = clusters.filter(slug=cluster_slug)
-            p.imap(_get_instances, clusters)
-            p.join()
+            p.map(_get_instances, clusters)
         cache_timeout = 90
         if bad_clusters:
             messages = "Some instances may be missing because the" \
                 " following clusters are unreachable: %s" \
                 % (", ".join([c.description for c in bad_clusters]))
             cache_timeout = 30
-        j.imap(_get_instance_details, instances)
-        j.join()
+        j.map(_get_instance_details, instances)
 
         if locked_clusters:
             messages += 'Some clusters are under maintenance: <br>'
@@ -502,8 +498,7 @@ def user_sum_stats(request):
         finally:
             close_connection()
     if not request.user.is_anonymous():
-        p.imap(_get_instances, Cluster.objects.all())
-        p.join()
+        p.map(_get_instances, Cluster.objects.all())
 
     if bad_clusters:
         messages.add_message(request, messages.WARNING,
@@ -1857,8 +1852,7 @@ def stats(request):
                 finally:
                     close_connection()
             if not request.user.is_anonymous():
-                p.imap(_get_instances, clusters)
-                p.join()
+                p.map(_get_instances, clusters)
             instances = len(instances)
             cache.set('leninstances', instances, 90)
         users = cache.get('lenusers')
