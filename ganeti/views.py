@@ -23,7 +23,6 @@ from gevent.pool import Pool
 from gevent.timeout import Timeout
 
 from time import mktime
-import datetime
 
 from ipaddr import *
 from django import forms
@@ -2081,7 +2080,7 @@ def idle_accounts(request):
         idle_users.extend([
             u for u in User.objects.filter(
                 is_active=True,
-                last_login__lte=datetime.datetime.now() - datetime.timedelta(
+                last_login__lte=datetime.now() - timedelta(
                     days=int(settings.IDLE_ACCOUNT_NOTIFICATION_DAYS)
                 )
             ) if u.email
