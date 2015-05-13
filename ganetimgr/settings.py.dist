@@ -359,3 +359,6 @@ FLATPAGES = {
              }
 
 MARKDOWN_EDITOR_SKIN = 'simple'
+
+# Explicitly specify the test runner used
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
