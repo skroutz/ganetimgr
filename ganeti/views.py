@@ -222,24 +222,7 @@ def clear_cache(request):
     if request.user.is_superuser or request.user.has_perm(
         'ganeti.view_instances'
     ):
-        username = request.user.username
-        keys_pattern = [
-            "user:%s:index:*" % username,
-            "cluster:*",
-            "pendingapplications",
-            "allclusternodes",
-            "bad*",
-            "len*",
-            "%s:ajax*" % username,
-            "locked_instances",
-            "*list",
-        ]
-        for key in keys_pattern:
-            cache_keys = cache.keys(pattern=key)
-            if cache_keys:
-                for cache_key in cache_keys:
-                    if not cache_key.endswith('lock'):
-                        cache.delete(cache_key)
+        cache.clear()
         result = {'result': "Success"}
     else:
         result = {'error': "Violation"}
