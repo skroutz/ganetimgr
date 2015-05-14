@@ -21,11 +21,21 @@ from django.contrib.auth import views as auth_v
 from accounts import views
 from accounts.forms import RegistrationForm, PasswordResetFormPatched
 
+from registration.views import RegistrationView
 
-urlpatterns = patterns(
-    '',
-    url(r'^activate/(?P<activation_key>\w+)/$', views.activate, name='activate_account'),
-    url(r'^register/$', 'registration.views.register', {'backend': 'regbackends.ganetimgr.GanetimgrBackend', 'form_class': RegistrationForm}, name='registration.views.register'),
-    url(r'^password/reset/$', auth_v.password_reset, {'password_reset_form': PasswordResetFormPatched}, name='password_reset'),
+
+urlpatterns = patterns('',
+    url(r'^activate/(?P<activation_key>\w+)/$',
+        views.activate, name='activate_account'),
+    url(r'^register/$',
+        RegistrationView.as_view(),
+        {
+            'form_class': RegistrationForm,
+            'backend':'regbackends.ganetimgr.GanetimgrBackend',
+        },
+        name='registration_register'),
+    url(r'^password/reset/$', auth_v.password_reset,
+        {'password_reset_form': PasswordResetFormPatched},
+        name='password_reset'),
     (r'^', include('registration.backends.default.urls')),
 )
