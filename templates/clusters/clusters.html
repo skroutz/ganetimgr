@@ -91,7 +91,7 @@
             	<table class="table visoverflow  small-font-table">
             		<thead>
                     	<tr>
-                    		<th>Name</th><th>Type</th><th>Network</th><th>Network6</th><th>Free</th>
+                               <th>Name</th><th>Nodegroup</th><th>Type</th><th>Link</th><th>Network</th><th>Network6</th><th>Free</th>
                     	</tr>
                 	</thead>
                 	<tbody id="networks_ph">
@@ -320,19 +320,22 @@
 					for (var j=0; j<clnets.length; j++) {
 						currnet = clnets[j];
 						name = currnet.name;
-						network = "-";
-						network6 = "-";
-						free = "-";
-						type = "bridged";
-						if (currnet.gateway){
-							// It's likely a routed network... TODO: will have to perform some additional checks...
-							network = currnet.network;
-							network6 = currnet.network6;
-							free = currnet.free_count;
-							type = "routed";
-						}
-						nettabletr = "<tr><td>"+name+"</td><td>"+type+"</td><td>"+network+"</td><td>"+network6+"</td><td>"+free+"</td></tr>";
-						$("#networks_ph").append(nettabletr);
+						network = currnet.network;
+						if (network == null)
+							network = "-";
+						network6 = currnet.network6;
+						if (network6 == null)
+							network6 = "-";
+						free = currnet.free_count;
+						if (free == null)
+							free = "-";
+						for (var g=0; g<currnet.group_list.length; g++) {
+							group = currnet.group_list[g][0];
+							type = currnet.group_list[g][1];
+							link = currnet.group_list[g][2];
+							nettabletr ="<tr><td>"+name+"</td><td>"+group+"</td><td>"+type+"</td><td>"+link+"</td><td>"+network+"</td><td>"+network6+"</td><td>"+free+"</td></tr>";
+							$("#networks_ph").append(nettabletr);
+                        }
 					}
 
 					//Instances
