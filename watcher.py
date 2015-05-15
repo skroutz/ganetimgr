@@ -34,7 +34,7 @@ from gevent import sleep, signal
 from gevent import reinit as gevent_reinit
 from gevent.pool import Pool
 
-from util import beanstalkc
+import beanstalkc
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ganetimgr.settings")
 from django.core.wsgi import get_wsgi_application

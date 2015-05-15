@@ -58,8 +58,7 @@ try:
 except ImportError:
     BEANSTALK_TUBE = None
 
-from util import beanstalkc
-
+import beanstalkc
 import json
 
 from django.db import close_connection
