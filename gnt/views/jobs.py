@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 from gnt.models import Cluster
 
 

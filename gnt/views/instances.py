@@ -33,7 +33,7 @@ from django.views.decorators.http import require_http_methods
 
 from auditlog.utils import auditlog_entry
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 
 
 from gnt.utils import (

@@ -34,7 +34,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 
 from gnt.utils import refresh_cluster_cache, prepare_clusternodes, \
         clusterdetails_generator

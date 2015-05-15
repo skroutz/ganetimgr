@@ -17,7 +17,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from gnt.models import Cluster, Instance
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 
 
 def memsize(value):

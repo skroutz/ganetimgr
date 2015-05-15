@@ -31,7 +31,7 @@ from django.core.urlresolvers import reverse
 from gnt.models import Cluster
 from apply.models import InstanceApplication, Organization
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 
 
 @login_required

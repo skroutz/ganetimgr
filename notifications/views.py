@@ -28,7 +28,7 @@ import json
 
 from gevent.pool import Pool
 
-from util.client import GanetiApiError
+from ganeti.rapi.client import GanetiApiError
 from django.db import close_connection
 from notifications.utils import get_mails, send_emails
 from notifications.models import NotificationArchive

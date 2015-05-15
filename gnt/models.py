@@ -37,9 +37,11 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.conf import settings
 
 from util import vapclient
-from util.client import GanetiRapiClient, GanetiApiError, GenericCurlConfig
 from ganetimgr.settings import GANETI_TAG_PREFIX
 from apply.models import Organization, InstanceApplication
+
+from ganeti.rapi.client import GanetiRapiClient, GanetiApiError, \
+        GenericCurlConfig
 
 REQUEST_ACTIONS = (
     (1, 'reinstall'),
