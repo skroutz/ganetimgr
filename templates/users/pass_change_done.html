@@ -3,7 +3,7 @@
 $(document).ready(function () {
 	$.ajax({
 		type: "GET",
-		url: "{% url pass_change_notify %}",
+		url: "{% url 'pass_change_notify' %}",
 		}).done(function ( data ) {
 			if( console && console.log ) {
 				console.log(data);

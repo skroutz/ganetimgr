@@ -4,7 +4,7 @@
 {% load staticfiles %}
 {% block clusterinfo %}class = "active"{% endblock %}
 {% block crumbs %}
-	<li><a href="{% url user-instances %}">{% trans "Home" %}</a><span class="divider">/</span></li>
+	<li><a href="{% url 'user-instances' %}">{% trans "Home" %}</a><span class="divider">/</span></li>
 	<li class="active">{% trans "Cluster Info" %}</li>
 {% endblock %}
 {% block extrahead %}
@@ -113,7 +113,7 @@
 	var ipolll;
 	$(document).ready( function(){
 		$('.content').addClass('loading');
-		var url = "{% url clusterdetails_json %}";
+		var url = "{% url 'clusterdetails_json' %}";
 		$.ajax({
 			type: 'GET',
 			url: url,
@@ -339,7 +339,7 @@
 					jobs = "";
 					$.ajax({
 						type: 'GET',
-						url: "{% url user-instances-json %}?cluster="+selected_cluster.slug,
+						url: "{% url 'user-instances-json' %}?cluster="+selected_cluster.slug,
 						dataType: 'json',
 						success: function(datainst) {
 								insts = datainst.aaData;
