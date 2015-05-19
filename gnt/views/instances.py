@@ -344,7 +344,8 @@ def novnc_proxy(request, cluster_slug, instance):
 def shutdown(request, cluster_slug, instance):
     cluster = get_object_or_404(Cluster, slug=cluster_slug)
     auditlog = auditlog_entry(request, "Shutdown", instance, cluster_slug)
-    jobid = cluster.shutdown_instance(instance)
+    reason = "ganetimgr:user:%s" % request.user.username
+    jobid = cluster.shutdown_instance(instance, reason=reason)
     auditlog.update(
         job_id=jobid
     )
@@ -360,7 +361,8 @@ def shutdown(request, cluster_slug, instance):
 def startup(request, cluster_slug, instance):
     cluster = get_object_or_404(Cluster, slug=cluster_slug)
     auditlog = auditlog_entry(request, 'Start', instance, cluster_slug)
-    jobid = cluster.startup_instance(instance)
+    reason = "ganetimgr:user:%s" % request.user.username
+    jobid = cluster.startup_instance(instance, reason=reason)
     auditlog.update(job_id=jobid)
     action = {
         'action': _('Please wait... starting-up')
@@ -376,7 +378,8 @@ def startup(request, cluster_slug, instance):
 def reboot(request, cluster_slug, instance):
     cluster = get_object_or_404(Cluster, slug=cluster_slug)
     auditlog = auditlog_entry(request, "Reboot", instance, cluster_slug)
-    jobid = cluster.reboot_instance(instance)
+    reason = "ganetimgr:user:%s" % request.user.username
+    jobid = cluster.reboot_instance(instance, reason=reason)
     auditlog.update(
         job_id=jobid
     )

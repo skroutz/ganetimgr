@@ -825,10 +825,10 @@ class Cluster(models.Model):
         )
         return proxy_server[0], int(res), password
 
-    def shutdown_instance(self, instance):
+    def shutdown_instance(self, instance, reason=None):
         cache_key = self._instance_cache_key(instance)
         cache.delete(cache_key)
-        job_id = self._client.ShutdownInstance(instance)
+        job_id = self._client.ShutdownInstance(instance, reason=reason)
         self._lock_instance(instance, reason="shutting down", job_id=job_id)
         return job_id
 
@@ -922,10 +922,10 @@ class Cluster(models.Model):
                 return True
         return False
 
-    def destroy_instance(self, instance):
+    def destroy_instance(self, instance, reason=None):
         cache_key = self._instance_cache_key(instance)
         cache.delete(cache_key)
-        job_id = self._client.DeleteInstance(instance)
+        job_id = self._client.DeleteInstance(instance, reason=reason)
         self._lock_instance(instance, reason="deleting", job_id=job_id)
         return job_id
 
@@ -941,17 +941,17 @@ class Cluster(models.Model):
         self._lock_instance(instance, reason="renaming", job_id=job_id)
         return job_id
 
-    def startup_instance(self, instance):
+    def startup_instance(self, instance, reason=None):
         cache_key = self._instance_cache_key(instance)
         cache.delete(cache_key)
-        job_id = self._client.StartupInstance(instance)
+        job_id = self._client.StartupInstance(instance, reason=reason)
         self._lock_instance(instance, reason="starting up", job_id=job_id)
         return job_id
 
-    def reboot_instance(self, instance):
+    def reboot_instance(self, instance, reason=None):
         cache_key = self._instance_cache_key(instance)
         cache.delete(cache_key)
-        job_id = self._client.RebootInstance(instance)
+        job_id = self._client.RebootInstance(instance, reason=reason)
         self._lock_instance(instance, reason="rebooting", job_id=job_id)
         instanceObj = self.get_instance_or_404(instance)
         if instanceObj.needsreboot:

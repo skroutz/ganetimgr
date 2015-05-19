@@ -266,7 +266,8 @@ def reinstalldestreview(request, application_hash, action_id):
                     return HttpResponseServerError()
             if action_id == 2:
                 auditlog.update(action="Destroy")
-                jobid = cluster.destroy_instance(instance)
+                reason = "ganetimgr:user:%s" % request.user.username
+                jobid = cluster.destroy_instance(instance, reason=reason)
                 auditlog.update(job_id=jobid)
             if action_id == 3:
                 # As rename causes cluster lock we perform some cache
