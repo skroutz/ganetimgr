@@ -126,7 +126,8 @@ def apply(request):
                 network = Network.objects.get(pk=net)
                 application.instance_params = {
                     "cluster": network.cluster.slug,
-                    "network": network.link,
+                    "network": network.description,
+                    "link": network.link,
                     "mode": network.mode
                 }
             application.save()
@@ -286,7 +287,8 @@ def review_application(request, application_id=None):
                         pk=form.cleaned_data['cluster']
                     ).slug,
                     'network': form.cleaned_data['netw'].split("::")[0],
-                    'mode': form.cleaned_data['netw'].split("::")[1],
+                    'link': form.cleaned_data['netw'].split("::")[1],
+                    'mode': form.cleaned_data['netw'].split("::")[2],
                     'node_group': form.cleaned_data['node_group'],
                     'vgs': form.cleaned_data['vgs'],
                     'disk_template': form.cleaned_data['disk_template'],

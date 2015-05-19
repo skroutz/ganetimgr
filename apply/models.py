@@ -127,7 +127,8 @@ class InstanceApplication(models.Model):
     @cluster.setter
     def cluster(self, c):
         self.instance_params = {
-            'network': c.get_default_network().link,
+            'network': c.get_default_network().description,
+            'link': c.get_default_network().link,
             'mode': c.get_default_network().mode,
             'cluster': c.slug
         }
@@ -177,14 +178,17 @@ class InstanceApplication(models.Model):
                     self.instance_params['vgs'])
                 )
         uses_gnt_network = self.cluster.use_gnt_network
-        nic_dict = dict(link=self.instance_params['network'],
-                        mode=self.instance_params['mode'])
-
-        if ((self.instance_params['mode'] == 'routed') and (uses_gnt_network)):
-            nic_dict = dict(network=self.instance_params['network'])
-
-        if self.instance_params['mode'] == "routed":
-            nic_dict.update(ip="pool")
+        mode = self.instance_params.get("mode", None)
+        network = self.instance_params.get("network", None)
+        if network and uses_gnt_network:
+            # Using the ip="pool" parameter is only valid with the
+            # 'network' parameter.
+            nic_dict = dict(network=network, ip="pool")
+        elif mode == "bridged":
+            nic_dict = dict(mode=mode,
+                            link=self.instance_params.get("link", None))
+        elif mode == "routed":
+            raise ApplicationError("Routed NIC mode requires an IP address")
 
         from ganeti.utils import operating_systems
         fetch_op_systems = operating_systems()
