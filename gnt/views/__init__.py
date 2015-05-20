@@ -24,14 +24,14 @@ from clusters import *
 from discovery import *
 from nodegroup import *
 
-from ganeti.utils import prepare_tags
+from gnt.utils import prepare_tags
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.template.context import RequestContext
 from django.template.loader import get_template
 from django.shortcuts import render
-from ganeti.forms import tagsForm
+from gnt.forms import tagsForm
 
 from django.contrib.messages import constants as msgs
 
@@ -50,9 +50,7 @@ def news(request):
 
 @login_required
 def clear_cache(request):
-    if request.user.is_superuser or request.user.has_perm(
-        'ganeti.view_instances'
-    ):
+    if request.user.is_superuser or request.user.has_perm('gnt.view_instances'):
         username = request.user.username
         keys_pattern = [
             "user:%s:index:*" % username,
@@ -180,7 +178,7 @@ def get_user_groups(request):
         userd['text'] = user.username
         if (
             request.user.is_superuser or
-            request.user.has_perm('ganeti.view_instances')
+            request.user.has_perm('gnt.view_instances')
         ):
             userd['email'] = user.email
         userd['id'] = "u_%s" % user.pk

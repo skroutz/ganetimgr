@@ -37,7 +37,7 @@ def auditlog(request):
 def auditlog_json(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         al = AuditEntry.objects.filter(last_updated__gte=datetime.datetime.now() - datetime.timedelta(days=10))
     else:

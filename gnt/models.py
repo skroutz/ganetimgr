@@ -524,7 +524,7 @@ class Cluster(models.Model):
 
     def get_user_instances(self, user):
         instances = self.get_instances()
-        if user.is_superuser or user.has_perm('ganeti.view_instances'):
+        if user.is_superuser or user.has_perm('gnt.view_instances'):
             return instances
         else:
             user = User.objects.filter(pk=user.pk).select_related(
@@ -831,7 +831,7 @@ class Cluster(models.Model):
         return job_id
 
     def reinstall_instance(self, instance, action):
-        from ganeti.utils import get_os_details
+        from gnt.utils import get_os_details
 
         def map_ssh_user(user, group=None, path=None):
             if group is None:

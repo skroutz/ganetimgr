@@ -36,7 +36,7 @@ import beanstalkc
 from paramiko import RSAKey, DSSKey
 from paramiko.util import hexlify
 
-from ganeti.fields.jsonfield import JSONField
+from gnt.fields.jsonfield import JSONField
 
 (STATUS_PENDING,
  STATUS_APPROVED,
@@ -118,7 +118,7 @@ class InstanceApplication(models.Model):
 
     @property
     def cluster(self):
-        from ganeti.models import Cluster
+        from gnt.models import Cluster
         try:
             return Cluster.objects.get(slug=self.instance_params['cluster'])
         except:
@@ -190,7 +190,7 @@ class InstanceApplication(models.Model):
         elif mode == "routed":
             raise ApplicationError("Routed NIC mode requires an IP address")
 
-        from ganeti.utils import operating_systems
+        from gnt.utils import operating_systems
         fetch_op_systems = operating_systems()
         op_systems = json.loads(fetch_op_systems).get('operating_systems')
         op_systems_dict = dict(op_systems)

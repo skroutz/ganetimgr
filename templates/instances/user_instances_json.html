@@ -47,18 +47,18 @@
 						<tr>
 							<th style="text-align: center;">{% trans "Name" %} <span class="sort-icon"></span></th>
 							<th style="text-align: center;">{% trans "Cluster" %} <span class="sort-icon"></span></th>
-							{% if user.is_superuser or perms.ganeti.view_instances %}
+							{% if user.is_superuser or perms.gnt.view_instances %}
 							<th style="text-align: center;">{% trans "Node" %} <span class="sort-icon"></span></th>
 							{% endif %}
 							<th style="text-align: center;">{% trans "Memory" %} <span class="sort-icon"></span></th>
 							<th style="text-align: center;">{% trans "Disk" %} <span class="sort-icon"></span></th>
 							<th style="text-align: center;">CPUs <span class="sort-icon"></span></th>
 							<th style="text-align: center;">{% trans "Status" %} <span class="sort-icon"></span></th>
-							{% if not user.is_superuser and not perms.ganeti.view_instances %}
-							<th style="text-align: center;">IP <span class="sort-icon"></span></th>
+							{% if not user.is_superuser and not perms.gnt.view_instances %}
+							<th style="text-align: center;">IPs <span class="sort-icon"></span></th>
 							{% endif %}
 							<th style="display:none">{% trans "MAC" %}</th>
-							{% if user.is_superuser or perms.ganeti.view_instances %}
+							{% if user.is_superuser or perms.gnt.view_instances %}
 							<th style="text-align: center;">{% trans "Network" %} <span class="sort-icon"></span></th>
 							<th style="text-align: center;">{% trans "Owner" %} <span class="sort-icon"></span></th>
 							<th style="text-align: center;">{% trans "Options" %}</th>
@@ -171,7 +171,7 @@ $(document).ready( function(){
 				$('#jsonmessages').show();
 				$('#jsonmessage').html(json.messages);
 			}
-			{% if not user.is_superuser and not perms.ganeti.view_instances %}
+			{% if not user.is_superuser and not perms.gnt.view_instances %}
 			$('body').on('click', '.revertbutton', function () {
 				var my = $(this);
 				my.parent().html(oldhtml);
@@ -288,7 +288,7 @@ $(document).ready( function(){
 						 "sClass" : "alignLeft","bSearchable": true,"bSortable": true
 					 },
 					 {"mData":"cluster", "sClass" : "alignCenter","bSearchable": true,"bSortable": true},
-					 {% if user.is_superuser or perms.ganeti.view_instances %}
+					 {% if user.is_superuser or perms.gnt.view_instances %}
 					 {"mData":"pnode", "sClass" : "alignCenter","bSearchable": true,"bSortable": true},
 					 {% endif %}
 					 {"mData":"memory", "sClass" : "alignCenter","bSearchable": true,"bSortable": true, "sType": "file-size"},
@@ -315,7 +315,7 @@ $(document).ready( function(){
 						 if (full.hasOwnProperty("needsreboot")){
 							  status = status + ' <span class="label label-important">Needs Reboot</span>';
 							  if (needsrebootset === false){
-							  {% if not user.is_superuser and not perms.ganeti.view_instances %}
+							  {% if not user.is_superuser and not perms.gnt.view_instances %}
 								msg = "One or more instances' core configuration components (any of network adapter, hard disk type, boot device, cdrom) have changed.<br/> " +
 								 " In order for these changes to take effect, you need to <strong>Reboot</strong> the instance(s). Tip: Search for 'Needs Reboot'";
 								  $('#jsonmessage').html(msg);
@@ -329,7 +329,7 @@ $(document).ready( function(){
 					  "sClass" : "alignCenter",
 					  "bSearchable": true,"bSortable": true
 						},
-						{% if not user.is_superuser and not perms.ganeti.view_instances %}
+						{% if not user.is_superuser and not perms.gnt.view_instances %}
 					 {"mData":"ipaddress","bSearchable": true,"bSortable": true, "sClass" : "alignCenter",
 						 "mRender": function (data, type, full) {
 						 status = "";
@@ -353,7 +353,7 @@ $(document).ready( function(){
 					 },
 					 {% endif %}
 					 {"mData":"nic_macs","bVisible":false},
-					 {% if user.is_superuser or perms.ganeti.view_instances %}
+					 {% if user.is_superuser or perms.gnt.view_instances %}
 					 {"mData":"network","bSearchable": true,"bSortable": true,"sClass" : "alignCenter",
 						 "mRender": function (data, type, full) {
 							 status = "";

@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from ganeti.models import Cluster, Instance
+from gnt.models import Cluster, Instance
 from django.template import Context, Template
 from django.conf import settings
 from django.core.mail.message import EmailMessage

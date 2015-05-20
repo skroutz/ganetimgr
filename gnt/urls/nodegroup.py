@@ -14,12 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from ganeti.decorators import ajax_required
-from django.http import HttpResponse
-from ganeti.utils import operating_systems
 
+from django.conf.urls import patterns, url
+from gnt import views
 
-@ajax_required
-def get_operating_systems(request):
-    return HttpResponse(operating_systems())
+urlpatterns = patterns(
+    '',
+    url(r'^fromnet/$', views.get_nodegroups_fromnet, name='ng_from_net'),
+    url(r'^cluster/$', views.get_cluster_node_group_stack, name='cluster_ng_stack'),
 
+)

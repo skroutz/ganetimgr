@@ -21,7 +21,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from notifications.forms import *
-from ganeti.models import *
+from gnt.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
@@ -37,7 +37,7 @@ from notifications.models import NotificationArchive
 @csrf_exempt
 @login_required
 def notify(request, instance=None):
-    if request.user.is_superuser or request.user.has_perm('ganeti.view_instances'):
+    if request.user.is_superuser or request.user.has_perm('gnt.view_instances'):
         if instance:
             instance = Instance.objects.get(name=instance)
         users = []
@@ -122,7 +122,7 @@ def archive(request, notification):
 def get_user_group_list(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         q_params = request.GET.get('q')
         type_of_search = request.GET.get('type')

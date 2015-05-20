@@ -36,22 +36,22 @@ from auditlog.utils import auditlog_entry
 from util.client import GanetiApiError
 
 
-from ganeti.utils import (
+from gnt.utils import (
     generate_json,
     generate_json_light,
     clear_cluster_user_cache,
     notifyuseradvancedactions,
     get_os_details,
 )
-from ganeti.forms import (
+from gnt.forms import (
     InstanceRenameForm,
     InstanceConfigForm,
     lockForm,
     isolateForm
 )
 
-from ganeti.models import *
-from ganeti.decorators import (
+from gnt.models import *
+from gnt.decorators import (
     check_instance_auth,
     check_admin_lock,
     check_instance_readonly,
@@ -630,7 +630,7 @@ def instance(request, cluster_slug, instance):
     ret_dict = {'cluster': cluster,
                 'instance': instance
                 }
-    if not request.user.has_perm('ganeti.view_instances') or (
+    if not request.user.has_perm('gnt.view_instances') or (
         request.user.is_superuser or
         request.user in instance.users or
         set.intersection(set(request.user.groups.all()), set(instance.groups))
@@ -648,7 +648,7 @@ def instance(request, cluster_slug, instance):
 def lock(request, instance):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if instance:
             instance = Instance.objects.get(name=instance)
@@ -713,7 +713,7 @@ def lock(request, instance):
 def isolate(request, instance):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if instance:
             instance = Instance.objects.get(name=instance)

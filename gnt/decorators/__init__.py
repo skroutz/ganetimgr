@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.template.context import RequestContext
 
-from ganeti.models import Cluster, Instance
+from gnt.models import Cluster, Instance
 
 
 def ajax_required(f):
@@ -106,7 +106,7 @@ def check_instance_readonly(view_fn):
             if (
                 request.user.is_superuser or
                 request.user in instance.users or
-                request.user.has_perm('ganeti.view_instances') or
+                request.user.has_perm('gnt.view_instances') or
                 set.intersection(
                     set(request.user.groups.all()), set(instance.groups)
                 )

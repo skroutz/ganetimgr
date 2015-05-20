@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import filesizeformat
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from ganeti.models import Cluster, Instance
+from gnt.models import Cluster, Instance
 
 from util.client import GanetiApiError
 
@@ -111,7 +111,7 @@ def generate_json(instance, user):
             )
         )
     inst_dict['name'] = i.name
-    if user.is_superuser or user.has_perm('ganeti.view_instances'):
+    if user.is_superuser or user.has_perm('gnt.view_instances'):
         inst_dict['cluster'] = i.cluster.slug
         inst_dict['pnode'] = i.pnode
     else:
@@ -124,7 +124,7 @@ def generate_json(instance, user):
     inst_dict['disk'] = ", ".join(disksizes(i.disk_sizes))
     inst_dict['vcpus'] = i.beparams['vcpus']
     inst_dict['ipaddress'] = [ip for ip in i.nic_ips if ip]
-    if not user.is_superuser and not user.has_perm('ganeti.view_instances'):
+    if not user.is_superuser and not user.has_perm('gnt.view_instances'):
         inst_dict['ipv6address'] = [ip for ip in i.ipv6s if ip]
     #inst_dict['status'] = i.nic_ips[0] if i.nic_ips[0] else "-"
     if i.admin_state == i.oper_state:
@@ -177,7 +177,7 @@ def generate_json(instance, user):
         if i.hvparams['cdrom_image_path'] and i.hvparams['boot_order'] == 'cdrom':
             inst_dict['cdrom'] = True
     inst_dict['nic_macs'] = ', '.join(i.nic_macs)
-    if user.is_superuser or user.has_perm('ganeti.view_instances'):
+    if user.is_superuser or user.has_perm('gnt.view_instances'):
         inst_dict['nic_links'] = ', '.join(i.nic_links)
         inst_dict['network'] = []
         for (nic_i, link) in enumerate(i.nic_links):
@@ -241,7 +241,7 @@ def generate_json_light(instance, user):
     inst_dict['memory'] = i.beparams['maxmem']
     inst_dict['vcpus'] = i.beparams['vcpus']
     inst_dict['disk'] = sum(i.disk_sizes)
-    if user.is_superuser or user.has_perm('ganeti.view_instances'):
+    if user.is_superuser or user.has_perm('gnt.view_instances'):
         inst_dict['users'] = [
             {
                 'user': user_item.username

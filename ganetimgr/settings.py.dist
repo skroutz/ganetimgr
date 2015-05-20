@@ -106,7 +106,7 @@ INSTALLED_APPS = (
     'django_markdown',
     'accounts',
     'registration',
-    'ganeti',
+    'gnt',
     'apply',
     'notifications',
     'stats',

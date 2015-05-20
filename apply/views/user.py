@@ -17,7 +17,7 @@ from django.template.context import RequestContext
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from ganeti.models import InstanceAction
+from gnt.models import InstanceAction
 
 from apply.forms import EmailChangeForm, NameChangeForm, SshKeyForm, OrganizationPhoneChangeForm
 from apply.utils import check_mail_change_pending
@@ -28,7 +28,7 @@ from apply.models import SshPublicKey
 def user_info(request, type, usergroup):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if type == 'user':
             usergroup_info = User.objects.get(username=usergroup)
@@ -47,7 +47,7 @@ def user_info(request, type, usergroup):
 def idle_accounts(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         idle_users = []
         idle_users.extend([

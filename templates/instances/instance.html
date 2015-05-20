@@ -101,14 +101,14 @@
 						<tr>
 							<td class="">{% trans "Cluster" %}</td>
 							<td>
-								{% if user.is_superuser or perms.ganeti.view_instances %}
+								{% if user.is_superuser or perms.gnt.view_instances %}
 									{{ instance.cluster.slug }}
 								{% else %}
 									{{ instance.cluster.description }}
 								{% endif %}
 							</td>
 						</tr>
-						{% if user.is_superuser or perms.ganeti.view_instances %}
+						{% if user.is_superuser or perms.gnt.view_instances %}
 						<tr>
 							<td class="">{% trans "Node" %}</td>
 							<td>{{instance.pnode}}</td>
@@ -150,7 +150,7 @@
 							<td>{{ instance.ipv6s|join:", " }}</td>
 						</tr>
 						{% endif %}
-						{% if user.is_superuser or perms.ganeti.view_instances %}
+						{% if user.is_superuser or perms.gnt.view_instances %}
 						<tr>
 							<td class="">Networks</td>
 							<td>{{ instance.netw|join:", " }}</td>
@@ -181,7 +181,7 @@
 						<tr>
 							<td class="">{% trans "Owners" %}</td>
 							<td>
-							{% if user.is_superuser or perms.ganeti.view_instances %}
+							{% if user.is_superuser or perms.gnt.view_instances %}
 								{% for u in instance.users %}
 									<a class="btn" href="{% if user.is_superuser %}{% url 'user-info' type='user' usergroup=u.username %}{% else %}#{% endif %}"><i class="fa fa-user"></i> {{u.username}}</a>
 								{% endfor %}
@@ -201,7 +201,7 @@
 							{% endif %}
 							</td>
 						</tr>
-						{% if user.is_superuser or perms.ganeti.view_instances %}
+						{% if user.is_superuser or perms.gnt.view_instances %}
 						<tr>
 							<td class="">{% trans "Admin Options" %}</td>
 							<td>

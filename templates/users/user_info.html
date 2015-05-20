@@ -130,7 +130,7 @@
 	                      "sClass" : "alignCenter",
 	                      "bSearchable": true,"bSortable": true
 	                        },
-	                        {% if not user.is_superuser and not perms.ganeti.view_instances %}
+	                        {% if not user.is_superuser and not perms.gnt.view_instances %}
 	                     {"mData":"ipaddress","bSearchable": true,"bSortable": true, "sClass" : "alignCenter",
 	                         "mRender": function (data, type, full) {
 	                       	 status = "";
@@ -154,7 +154,7 @@
 	                     },
 	                     {% endif %}
 	                     {"mData":"nic_macs","bVisible":false},
-	                     {% if user.is_superuser or perms.ganeti.view_instances %}
+	                     {% if user.is_superuser or perms.gnt.view_instances %}
 	                     {"mData":"network","bSearchable": true,"bSortable": true,"sClass" : "alignCenter",
 	                    	 "mRender": function (data, type, full) {
 	                           	 status = "";
@@ -368,11 +368,11 @@
 						<th style="text-align: center;">{% trans "Disk" %} <span class="sort-icon"></span></th>
 						<th style="text-align: center;">CPUs <span class="sort-icon"></span></th>
 						<th style="text-align: center;">{% trans "Status" %} <span class="sort-icon"></span></th>
-						{% if not user.is_superuser and not perms.ganeti.view_instances %}
+						{% if not user.is_superuser and not perms.gnt.view_instances %}
 						<th style="text-align: center;">IP <span class="sort-icon"></span></th>
 						{% endif %}
 						<th style="display:none">{% trans "MAC" %}</th>
-						{% if user.is_superuser or perms.ganeti.view_instances %}
+						{% if user.is_superuser or perms.gnt.view_instances %}
 						<th style="text-align: center;">{% trans "Network" %} <span class="sort-icon"></span></th>
 						<th style="text-align: center;">{% trans "Owner" %} <span class="sort-icon"></span></th>
 						<th style="text-align: center;">{% trans "Options" %}</th>

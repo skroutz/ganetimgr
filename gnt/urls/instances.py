@@ -17,7 +17,7 @@
 
 from django.conf.urls import patterns, url
 
-from ganeti import views
+from gnt import views
 
 urlpatterns = patterns(
     '',

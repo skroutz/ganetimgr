@@ -24,7 +24,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from django.utils.safestring import mark_safe
 
-from ganeti.models import Instance, Cluster
+from gnt.models import Instance, Cluster
 from ipaddr import IPNetwork
 
 

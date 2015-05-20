@@ -2,8 +2,8 @@ import json
 from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required
 
-from ganeti.models import Network, Cluster
-from ganeti.utils import prepare_cluster_node_group_stack
+from gnt.models import Network, Cluster
+from gnt.utils import prepare_cluster_node_group_stack
 
 
 @permission_required("apply.change_instanceapplication")

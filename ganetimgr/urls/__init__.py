@@ -22,10 +22,10 @@ from django_markdown import flatpages
 
 # import urls
 from accounts import urls as accounts
-from ganeti.urls import graphs, instances, jobs, clusters, nodegroup
+from gnt.urls import graphs, instances, jobs, clusters, nodegroup
 from stats import urls as stats_urls
 from apply.urls import application, user
-from ganeti.views import discovery
+from gnt.views import discovery
 from notifications import urls as notifications
 from auditlog import urls as auditlog
 admin.autodiscover()
@@ -34,13 +34,13 @@ flatpages.register()
 urlpatterns = patterns(
     '',
     (r'^setlang/?$', 'django.views.i18n.set_language'),
-    url(r'^$', 'ganeti.views.user_index', name="user-instances"),
-    url(r'^news/?$', 'ganeti.views.news', name="news"),
+    url(r'^$', 'gnt.views.user_index', name="user-instances"),
+    url(r'^news/?$', 'gnt.views.news', name="news"),
 
     # unique, helper urls
-    url(r'^clearcache/?$', 'ganeti.views.clear_cache', name="clearcache"),
+    url(r'^clearcache/?$', 'gnt.views.clear_cache', name="clearcache"),
     url(r'^operating_systems/$', discovery.get_operating_systems, name='operating_systems_json'),
-    url(r'^tagusergrps/?$', 'ganeti.views.get_user_groups', name="tagusergroups"),
+    url(r'^tagusergrps/?$', 'gnt.views.get_user_groups', name="tagusergroups"),
 
     # mount apps
     (r'^application/', include(application)),

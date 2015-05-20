@@ -28,7 +28,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
-from ganeti.models import Cluster
+from gnt.models import Cluster
 from apply.models import InstanceApplication, Organization
 
 from util.client import GanetiApiError
@@ -42,7 +42,7 @@ def stats_ajax_applications(request):
         applications = InstanceApplication.objects.all().order_by('filed')
         if not (
             request.user.is_superuser or
-            request.user.has_perm('ganeti.view_instances')
+            request.user.has_perm('gnt.view_instances')
         ):
             applications = applications.filter(applicant=request.user)
         app_list = []
@@ -73,7 +73,7 @@ def stats_ajax_instances(request):
             cluster_dict = {}
             if (
                 request.user.is_superuser or
-                request.user.has_perm('ganeti.view_instances')
+                request.user.has_perm('gnt.view_instances')
             ):
                 cluster_dict['name'] = cluster.slug
             else:
@@ -139,7 +139,7 @@ def stats_ajax_vms_per_cluster(request, cluster_slug):
 def stats(request):
     clusters = Cluster.objects.all()
     exclude_pks = []
-    if (request.user.is_superuser or request.user.has_perm('ganeti.view_instances')):
+    if (request.user.is_superuser or request.user.has_perm('gnt.view_instances')):
         instances = cache.get('leninstances')
         if instances is None:
             p = Pool(20)

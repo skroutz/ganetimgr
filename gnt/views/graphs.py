@@ -23,10 +23,10 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
-from ganeti.decorators import check_instance_auth
-from ganeti.forms import GraphForm
-from ganeti.models import *
-from ganeti.utils import get_nodes_with_graphs
+from gnt.decorators import check_instance_auth
+from gnt.forms import GraphForm
+from gnt.models import *
+from gnt.utils import get_nodes_with_graphs
 
 
 @login_required
@@ -78,7 +78,7 @@ def cluster_nodes_graphs(request, cluster_slug=None):
     if (
         request.user.is_superuser
         or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if form.is_valid():
             cluster = form.cleaned_data['cluster']

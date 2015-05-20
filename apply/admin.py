@@ -19,7 +19,7 @@ import functools
 from django.db.utils import ProgrammingError
 from django.contrib import admin
 
-from ganeti.models import Cluster
+from gnt.models import Cluster
 from apply.models import Organization, InstanceApplication, \
         STATUS_PENDING, STATUS_APPROVED
 

@@ -14,13 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from gnt.decorators import ajax_required
+from django.http import HttpResponse
+from gnt.utils import operating_systems
 
-from django.conf.urls import patterns, url
-from ganeti import views
 
-urlpatterns = patterns(
-    '',
-    url(r'^(?P<cluster_slug>[^/]+)/(?P<instance>[^/]+)/(?P<graph_type>[^/]+)(/(?P<start>[\\:\w\d\s\.+-]+),(?P<end>[\\:\w\d\s\.+-]+))?(/(?P<nic>eth\d+))?$', views.graph, name='graph'),
-    url(r'^all/$', views.cluster_nodes_graphs, name="cluster-get-nodes-graphs"),
-    url(r'^(?P<cluster_slug>[^/]+)/instances/$', views.cluster_nodes_graphs, name="cluster-get-nodes-graphs"),
-)
+@ajax_required
+def get_operating_systems(request):
+    return HttpResponse(operating_systems())
+

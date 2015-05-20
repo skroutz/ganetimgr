@@ -41,7 +41,7 @@ from django.core.wsgi import get_wsgi_application
 get_wsgi_application()
 from django.conf import settings
 
-from ganeti.models import Cluster
+from gnt.models import Cluster
 from apply.models import InstanceApplication, STATUS_FAILED, STATUS_SUCCESS
 from django.core.cache import cache
 from django.contrib.sites.models import Site

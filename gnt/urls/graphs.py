@@ -16,10 +16,11 @@
 #
 
 from django.conf.urls import patterns, url
-from ganeti import views
+from gnt import views
 
 urlpatterns = patterns(
     '',
-    url(r'^json/?$', views.jobs_index_json, name="jobs_json"),
-    url(r'^$', views.jobs, name="jobs"),
+    url(r'^(?P<cluster_slug>[^/]+)/(?P<instance>[^/]+)/(?P<graph_type>[^/]+)(/(?P<start>[\\:\w\d\s\.+-]+),(?P<end>[\\:\w\d\s\.+-]+))?(/(?P<nic>eth\d+))?$', views.graph, name='graph'),
+    url(r'^all/$', views.cluster_nodes_graphs, name="cluster-get-nodes-graphs"),
+    url(r'^(?P<cluster_slug>[^/]+)/instances/$', views.cluster_nodes_graphs, name="cluster-get-nodes-graphs"),
 )

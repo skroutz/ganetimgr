@@ -16,18 +16,10 @@
 #
 
 from django.conf.urls import patterns, url
-from ganeti import views
+from gnt import views
 
 urlpatterns = patterns(
     '',
-    # this view lives in jobs.py
-    url(r'^jobdetails/?$', views.job_details, name="jobdets-popup"),
-    url(r'^popup/?', views.instance_popup, name="instance-popup"),
-    url(r'^nodes/?', views.get_clusternodes, name="cluster-nodes"),
-    url(r'^jnodes/(?P<cluster>[^/]+)/$', views.clusternodes_json, name="cluster-nodes-json"),
-    url(r'^jnodes/$', views.clusternodes_json, name="cluster-nodes-json"),
-    url(r'^instance/destreinst/(?P<application_hash>\w+)/(?P<action_id>\d+)/$', views.reinstalldestreview, name='reinstall-destroy-review'),
-    url(r'^detail/?$', views.clusterdetails, name="clusterdetails"),
-    url(r'^detail/json/?$', views.clusterdetails_json, name="clusterdetails_json"),
-
+    url(r'^json/?$', views.jobs_index_json, name="jobs_json"),
+    url(r'^$', views.jobs, name="jobs"),
 )

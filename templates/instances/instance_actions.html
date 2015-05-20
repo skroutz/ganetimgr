@@ -198,12 +198,12 @@
 });
 
 </script>
-{% if not instance.adminlock or  user.is_superuser or perms.ganeti.view_instances %}
+{% if not instance.adminlock or  user.is_superuser or perms.gnt.view_instances %}
 	{% if not instance.is_locked %}
 		{% if instance.oper_state %}
 			<div id="actions_container_inner" class="row-fluid" style="text-align:center;">
 				<div class="span12">
-				{% if not instance.node_group_locked or user.is_superuser or perms.ganeti.view_instances %}
+				{% if not instance.node_group_locked or user.is_superuser or perms.gnt.view_instances %}
 				<div class="span6">
 				<div class="row-fluid"><div class="span12"><a class="btn btn-danger btn-small btn-fixed" id="shutdown" href="#"><i class="fa fa-power-off"></i> {% trans "Shutdown" %}</a></div></div>
 				<div class="row-fluid"><div class="span12"><a class="btn btn-warning  btn-small btn-fixed" id="reboot" href="#"><i class='fa fa-refresh'></i> {% trans "Reboot" %}</a></div></div>

@@ -28,14 +28,14 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 
 from util.client import GanetiApiError
-from ganeti.models import Cluster
+from gnt.models import Cluster
 
 
 @login_required
 def job_details(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if request.method == 'GET':
             cluster_slug = request.GET.get('cluster', None)
@@ -59,7 +59,7 @@ def job_details(request):
 def jobs_index_json(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         cluster_slug = request.GET.get('cluster', None)
         messages = ""
@@ -100,7 +100,7 @@ def jobs_index_json(request):
 
 @login_required
 def jobs(request):
-    if request.user.is_superuser or request.user.has_perm('ganeti.view_instances'):
+    if request.user.is_superuser or request.user.has_perm('gnt.view_instances'):
         return render_to_response(
             'jobs/jobs.html',
             context_instance=RequestContext(request)

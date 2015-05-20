@@ -36,22 +36,19 @@ from django.views.decorators.csrf import csrf_exempt
 
 from util.client import GanetiApiError
 
-from ganeti.utils import refresh_cluster_cache
+from gnt.utils import refresh_cluster_cache, prepare_clusternodes, \
+        clusterdetails_generator
 
 from auditlog.utils import auditlog_entry
 
-from ganeti.utils import (
-    prepare_clusternodes,
-    clusterdetails_generator,
-)
-from ganeti.models import Cluster, InstanceAction, Instance
+from gnt.models import Cluster, InstanceAction, Instance
 
 
 @login_required
 def clusternodes_json(request, cluster=None):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         nodedetails = []
         jresp = {}
@@ -119,7 +116,7 @@ def clusternodes_json(request, cluster=None):
 def instance_popup(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         if request.method == 'GET':
             if 'cluster' in request.GET:
@@ -145,7 +142,7 @@ def instance_popup(request):
 def get_clusternodes(request):
     if (
         request.user.is_superuser or
-        request.user.has_perm('ganeti.view_instances')
+        request.user.has_perm('gnt.view_instances')
     ):
         nodes = cache.get('allclusternodes')
         bad_clusters = cache.get('badclusters')
@@ -318,7 +315,7 @@ def reinstalldestreview(request, application_hash, action_id):
 
 @login_required
 def clusterdetails(request):
-    if request.user.is_superuser or request.user.has_perm('ganeti.view_instances'):
+    if request.user.is_superuser or request.user.has_perm('gnt.view_instances'):
         return render(
             request,
             'clusters/clusters.html',
@@ -330,7 +327,7 @@ def clusterdetails(request):
 
 @login_required
 def clusterdetails_json(request):
-    if request.user.is_superuser or request.user.has_perm('ganeti.view_instances'):
+    if request.user.is_superuser or request.user.has_perm('gnt.view_instances'):
         clusterlist = cache.get("cluster:allclusterdetails")
         if clusterlist is None:
             clusterlist = []

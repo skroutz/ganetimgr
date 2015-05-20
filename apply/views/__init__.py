@@ -35,7 +35,7 @@ from django.http import (
     HttpResponse
 )
 
-from ganeti.models import (
+from gnt.models import (
     Network,
     Cluster,
 )
