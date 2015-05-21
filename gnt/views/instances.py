@@ -20,6 +20,7 @@ import json
 from gevent.pool import Pool
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import constants as msgs
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.conf import settings
@@ -186,7 +187,7 @@ def user_sum_stats(request):
         p.map(_get_instances, Cluster.objects.all())
 
     if bad_clusters:
-        msgs.add_message(
+        messages.add_message(
             request,
             msgs.WARNING,
             'Some instances may be missing because the'
@@ -611,7 +612,7 @@ def instance(request, cluster_slug, instance):
                 instance.nic_ips[nic_i], instance.nic_links[nic_i])
             )
     if instance.isolate and instance.whitelistip is None:
-        msgs.add_message(
+        messages.add_message(
             request,
             msgs.ERROR,
             "Your instance is isolated from the network and" +
@@ -620,7 +621,7 @@ def instance(request, cluster_slug, instance):
             " you can set it via the instance configuration form"
         )
     if instance.needsreboot:
-        msgs.add_message(
+        messages.add_message(
             request,
             msgs.ERROR,
             "You have modified one or more of your instance's core " +
