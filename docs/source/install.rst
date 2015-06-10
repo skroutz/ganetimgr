@@ -10,7 +10,7 @@ This guide documents how to install ganetimgr with the following software:
 - gunicorn with gevent, it runs the Django project
 - Nginx, the web server that serves the static content and proxies to gunicorn
 - Mysql, the database backend
-- Redis, as Django's caching backend. Stores session info and caches data
+- Memcache, as Django's caching backend. Stores session info and caches data
 - Beanstalkd, used by worker.py
 
 Any feedback on how to install under different circumstances is welcome.
@@ -20,8 +20,8 @@ Install packages
 
 Update and install the required packages::
 
-    apt-get install git nginx mysql-server gunicorn python-gevent redis-server beanstalkd memcached
-    apt-get install python-mysqldb python-django python-memcache python-redis python-django-registration python-paramiko python-daemon python-setproctitle python-pycurl python-recaptcha python-ipaddr python-bs4 python-requests python-markdown python-beanstalkc python-ganeti-rapi
+    apt-get install git nginx mysql-server gunicorn python-gevent beanstalkd memcached
+    apt-get install python-mysqldb python-django python-memcache python-django-registration python-paramiko python-daemon python-setproctitle python-pycurl python-recaptcha python-ipaddr python-bs4 python-requests python-markdown python-beanstalkc python-ganeti-rapi
 
 
 Beanstalkd

@@ -114,9 +114,6 @@ INSTALLED_APPS = (
 )
 
 # Caching is a vital part of ganetimgr.
-# If you deploy more than one ganetimgr instances on the same server,
-# and want to use Redis for both, make sure you select a different db for each instance
-# Warning!!! Redis db should ALWAYS be an integer, denoting db index.
 # If memcache is your preferred cache, then select:
 CACHES = {
     'default': {
