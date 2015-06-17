@@ -17,6 +17,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 
 class AuditEntry(models.Model):
@@ -28,6 +29,9 @@ class AuditEntry(models.Model):
     job_id = models.IntegerField(null=True, blank=True)
     recorded = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = _("audit entries")
 
     def __unicode__(self):
         return "%s %s %s" % (self.requester, self.action, self.instance)
